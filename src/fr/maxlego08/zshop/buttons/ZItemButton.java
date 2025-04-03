@@ -258,6 +258,7 @@ public class ZItemButton extends ZButton implements ItemButton {
 
         ItemStack itemStack = super.getItemStack().build(player, false).clone();
         String itemName = manager.getItemName(itemStack);
+        String translationKey = manager.getTranslationName(itemStack);
 
         /* We withdraw the money if the price is greater than 0  */
         if (currentPrice > 0){
@@ -298,7 +299,7 @@ public class ZItemButton extends ZButton implements ItemButton {
         /* END BUILD ITEM AND GIVE IT TO PLAYER */
 
         String buyPrice = this.shopEconomy.format(this.shopManager.transformPrice(currentPrice), currentPrice);
-        manager.message(this.plugin, player, Message.BUY_ITEM, "%amount%", String.valueOf(amount), "%item%", itemName, "%price%", buyPrice);
+        manager.message(this.plugin, player, Message.BUY_ITEM, "%amount%", String.valueOf(amount), "%item%", itemName, "%price%", buyPrice, "%translation%", translationKey);
 
         commands(amount, itemName, buyPrice, HistoryType.BUY, player);
         log(amount, itemName, buyPrice, player.getName(), player.getUniqueId(), HistoryType.BUY);
@@ -405,8 +406,9 @@ public class ZItemButton extends ZButton implements ItemButton {
             this.shopEconomy.depositMoney(player, currentPrice, this.depositReason.replace("%amount%", String.valueOf(realAmount)).replace("%item%", itemName));
         }
 
+        String translationKey = manager.getTranslationName(itemStack);
         String sellPrice = this.shopEconomy.format(this.shopManager.transformPrice(currentPrice), currentPrice);
-        manager.message(this.plugin, player, Message.SELL_ITEM, "%amount%", String.valueOf(realAmount), "%item%", itemName, "%price%", sellPrice);
+        manager.message(this.plugin, player, Message.SELL_ITEM, "%amount%", String.valueOf(realAmount), "%item%", itemName, "%price%", sellPrice, "%translation%", translationKey);
 
         commands(realAmount, itemName, sellPrice, HistoryType.SELL, player);
         log(realAmount, itemName, sellPrice, player.getName(), player.getUniqueId(), HistoryType.SELL);
