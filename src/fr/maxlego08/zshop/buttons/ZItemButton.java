@@ -579,7 +579,7 @@ public class ZItemButton extends ZButton implements ItemButton {
             line = line.replace("%playerBuyAmount%", optional.map(playerLimit -> String.valueOf(playerLimit.getBuyAmount(material))).orElse("0"));
             /* END PLAYER LIMIT */
 
-            itemLore.add(line);
+            itemLore.add(Placeholder.getPlaceholder().setPlaceholders(player, line));
         }
         return itemLore;
     }
