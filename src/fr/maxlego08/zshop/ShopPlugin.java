@@ -128,10 +128,11 @@ public class ShopPlugin extends ZPlugin {
         this.limitManager.load(this.getPersist());
 
         this.saveDefaultConfig();
-        this.loadFiles();
         this.economyManager.loadEconomies();
-        this.shopManager.loadConfig();
         this.loadButtons();
+
+        this.loadFiles();
+        this.shopManager.loadConfig();
 
         new Metrics(this, 5881);
 
