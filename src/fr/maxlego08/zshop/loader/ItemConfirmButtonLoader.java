@@ -47,7 +47,7 @@ public class ItemConfirmButtonLoader implements ButtonLoader {
     public Button load(YamlConfiguration configuration, String path, DefaultButtonValue defaultButtonValue) {
 
         String defaultEconomy = configuration.getString("economy", Config.defaultEconomy);
-        double price = configuration.getDouble(path + "price", 0.0);
+        double price = Double.parseDouble(configuration.getString(path + "price", "0.0"));
 
         if (price == 0.0) {
             Logger.info("Attention, the price is 0 for " + path, Logger.LogType.ERROR);
@@ -68,8 +68,12 @@ public class ItemConfirmButtonLoader implements ButtonLoader {
         List<Action> confirmActions = new ArrayList<>();
         List<?> list = configuration.getList(path + "confirm-actions");
         if (list != null) {
-            List<Map<String, Object>> maps = (List<Map<String, Object>>) list;
-            confirmActions = this.plugin.getButtonManager().loadActions(maps, path, new File(plugin.getDataFolder(), "?.yml"));
+            try {
+                List<Map<String, Object>> maps = (List<Map<String, Object>>) list;
+                confirmActions = this.plugin.getButtonManager().loadActions(maps, path, new File(plugin.getDataFolder(), "?.yml"));
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
 
         return new ZItemConfirmButton(plugin, shopEconomy, price, enableLog, name, inventoryConfirm, reason, confirmActions);

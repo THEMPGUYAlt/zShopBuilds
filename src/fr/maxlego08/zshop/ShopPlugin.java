@@ -128,9 +128,10 @@ public class ShopPlugin extends ZPlugin {
         this.limitManager.load(this.getPersist());
 
         this.saveDefaultConfig();
-        this.loadButtons();
-        this.loadFiles();
         this.economyManager.loadEconomies();
+        this.loadButtons();
+
+        this.loadFiles();
         this.shopManager.loadConfig();
 
         new Metrics(this, 5881);
@@ -176,7 +177,6 @@ public class ShopPlugin extends ZPlugin {
         Config.load((YamlConfiguration) getConfig());
 
         super.reloadFiles();
-        this.loadButtons();
         this.reloadConfig();
         this.economyManager.loadEconomies();
         this.shopManager.loadConfig();

@@ -1,16 +1,15 @@
 package fr.maxlego08.zshop.buttons;
 
-import fr.maxlego08.menu.MenuItemStack;
 import fr.maxlego08.menu.button.ZButton;
 import fr.maxlego08.zshop.ShopPlugin;
 import fr.maxlego08.zshop.api.PlayerCache;
 import fr.maxlego08.zshop.api.buttons.ItemButton;
 import fr.maxlego08.zshop.api.buttons.ShowItemButton;
+import fr.maxlego08.zshop.placeholder.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,7 @@ public class ZShowItemButton extends ZButton implements ShowItemButton {
             line = line.replace("%sellPrice%", sellPrice);
             line = line.replace("%buyPrice%", buyPrice);
 
-            return line;
+            return Placeholder.getPlaceholder().setPlaceholders(player, line);
         }).collect(Collectors.toList());
 
         this.plugin.getIManager().getMeta().updateLore(itemMeta, itemLore, player);
