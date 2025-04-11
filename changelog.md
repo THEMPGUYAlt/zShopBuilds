@@ -4,6 +4,11 @@
 
 # Unreleased
 
+# 3.2.0
+
+- Update to last zMenu Version
+- Fix item confirm button
+- Fix file loading
 - Fix sell all with item in the offhand
 
 # 3.1.8
