@@ -1,6 +1,5 @@
 package fr.maxlego08.zshop.buttons;
 
-import fr.maxlego08.menu.button.ZButton;
 import fr.maxlego08.zshop.ShopPlugin;
 import fr.maxlego08.zshop.api.PlayerCache;
 import fr.maxlego08.zshop.api.buttons.ItemButton;
@@ -13,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ZShowItemButton extends ZButton implements ShowItemButton {
+public class ZShowItemButton extends ShowItemButton {
 
     private final ShopPlugin plugin;
     private final List<String> lore;

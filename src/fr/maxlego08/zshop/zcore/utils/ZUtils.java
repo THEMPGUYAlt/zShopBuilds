@@ -894,23 +894,8 @@ public abstract class ZUtils extends MessageUtils {
         return null;
     }
 
-    /**
-     * Allows to execute a runnable in an asynmetrical way
-     *
-     * @param runnable
-     */
     protected void runAsync(ShopPlugin plugin, Runnable runnable) {
-        plugin.getIManager().getScheduler().runTaskAsynchronously(runnable);
-    }
-
-    /**
-     * Turns back time for a human
-     *
-     * @param second
-     * @return string
-     */
-    protected String getStringTime(long second) {
-        return TimerBuilder.getStringTime(second);
+        plugin.getIManager().getScheduler().runAsync(w -> runnable.run());
     }
 
     /**

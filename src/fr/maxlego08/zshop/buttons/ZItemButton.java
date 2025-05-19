@@ -1,10 +1,10 @@
 package fr.maxlego08.zshop.buttons;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import fr.maxlego08.menu.MenuItemStack;
+import fr.maxlego08.menu.api.MenuItemStack;
+import fr.maxlego08.menu.api.button.Button;
+import fr.maxlego08.menu.api.engine.InventoryEngine;
 import fr.maxlego08.menu.api.utils.MetaUpdater;
-import fr.maxlego08.menu.button.ZButton;
-import fr.maxlego08.menu.inventory.inventories.InventoryDefault;
 import fr.maxlego08.zshop.ShopPlugin;
 import fr.maxlego08.zshop.ZShopManager;
 import fr.maxlego08.zshop.api.PriceModifier;
@@ -40,7 +40,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ZItemButton extends ZButton implements ItemButton {
+public class ZItemButton extends ItemButton {
 
     protected final ShopManager shopManager;
     protected final ShopPlugin plugin;
@@ -261,7 +261,7 @@ public class ZItemButton extends ZButton implements ItemButton {
         String translationKey = manager.getTranslationName(itemStack);
 
         /* We withdraw the money if the price is greater than 0  */
-        if (currentPrice > 0){
+        if (currentPrice > 0) {
             this.shopEconomy.withdrawMoney(player, currentPrice, this.withdrawReason.replace("%amount%", String.valueOf(amount)).replace("%item%", itemName));
         }
 
@@ -415,7 +415,7 @@ public class ZItemButton extends ZButton implements ItemButton {
     }
 
     private void commands(int amount, String itemName, String price, HistoryType type, Player player) {
-        plugin.getIManager().getScheduler().runTask(null, () -> {
+        plugin.getIManager().getScheduler().runAtLocation(player.getLocation(), w -> {
             for (String command : (type == HistoryType.SELL ? sellCommands : buyCommands)) {
                 command = command.replace("%amount%", String.valueOf(amount));
                 command = command.replace("%item%", itemName);
@@ -430,7 +430,7 @@ public class ZItemButton extends ZButton implements ItemButton {
     public void log(int amount, String itemName, String price, String playerName, UUID uuid, HistoryType type) {
         if (LogConfig.enableLog || this.enableLog) {
 
-            String logMessage = getMessage(type == HistoryType.SELL ? LogConfig.sellMessage : LogConfig.buyMessage, "%amount%", String.valueOf(amount), "%item%", itemName, "%price%", price, "%player%", playerName, "%uuid%", uuid.toString());
+            String logMessage = ((ZShopManager) this.plugin.getShopManager()).getMessage(type == HistoryType.SELL ? LogConfig.sellMessage : LogConfig.buyMessage, "%amount%", String.valueOf(amount), "%item%", itemName, "%price%", price, "%player%", playerName, "%uuid%", uuid.toString());
 
             if (LogConfig.enableLogInConsole) Logger.info(logMessage);
 
@@ -516,7 +516,7 @@ public class ZItemButton extends ZButton implements ItemButton {
     }
 
     @Override
-    public void onRightClick(Player player, InventoryClickEvent event, InventoryDefault inventory, int slot) {
+    public void onRightClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot) {
         super.onRightClick(player, event, inventory, slot);
         if (canSell()) {
             this.plugin.getShopManager().openSell(player, this, this.inventorySell);
@@ -524,7 +524,7 @@ public class ZItemButton extends ZButton implements ItemButton {
     }
 
     @Override
-    public void onMiddleClick(Player player, InventoryClickEvent event, InventoryDefault inventory, int slot) {
+    public void onMiddleClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot) {
         super.onMiddleClick(player, event, inventory, slot);
         if (canSell()) {
             sell(player, 0);
@@ -532,7 +532,7 @@ public class ZItemButton extends ZButton implements ItemButton {
     }
 
     @Override
-    public void onLeftClick(Player player, InventoryClickEvent event, InventoryDefault inventory, int slot) {
+    public void onLeftClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot) {
         super.onLeftClick(player, event, inventory, slot);
         if (canBuy()) {
             this.plugin.getShopManager().openBuy(player, this, this.inventoryBuy);

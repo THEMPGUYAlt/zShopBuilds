@@ -161,7 +161,7 @@ public abstract class MessageUtils extends LocationUtils {
         return getMessage(message.getMessage(), args);
     }
 
-    protected String getMessage(String message, Object... args) {
+    public String getMessage(String message, Object... args) {
         if (args.length % 2 != 0) {
             System.err.println("Impossible to apply the method for messages.");
         } else {

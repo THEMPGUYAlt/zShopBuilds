@@ -3,9 +3,8 @@ package fr.maxlego08.zshop;
 import fr.maxlego08.menu.api.ButtonManager;
 import fr.maxlego08.menu.api.InventoryManager;
 import fr.maxlego08.menu.api.command.CommandManager;
+import fr.maxlego08.menu.api.loader.NoneLoader;
 import fr.maxlego08.menu.api.pattern.PatternManager;
-import fr.maxlego08.menu.api.scheduler.ZScheduler;
-import fr.maxlego08.menu.button.loader.PluginLoader;
 import fr.maxlego08.zshop.api.ShopManager;
 import fr.maxlego08.zshop.api.economy.EconomyManager;
 import fr.maxlego08.zshop.api.history.HistoryManager;
@@ -60,7 +59,6 @@ public class ShopPlugin extends ZPlugin {
     private CommandManager commandManager;
     private PatternManager patternManager;
     private ButtonManager buttonManager;
-    private ZScheduler scheduler;
     private boolean isLoad = false;
 
     private String transformNumberToString(int number) {
@@ -216,9 +214,9 @@ public class ShopPlugin extends ZPlugin {
         this.buttonManager.register(new AddButtonLoader(this));
         this.buttonManager.register(new BuyMoreLoader(this));
         this.buttonManager.register(new RemoveButtonLoader(this));
-        this.buttonManager.register(new PluginLoader(this, ZConfirmBuyButton.class, "zshop_confirm_buy"));
-        this.buttonManager.register(new PluginLoader(this, ZConfirmSellButton.class, "zshop_confirm_sell"));
-        this.buttonManager.register(new PluginLoader(this, ZShowConfirmItemButton.class, "zshop_show_confirm"));
+        this.buttonManager.register(new NoneLoader(this, ZConfirmBuyButton.class, "zshop_confirm_buy"));
+        this.buttonManager.register(new NoneLoader(this, ZConfirmSellButton.class, "zshop_confirm_sell"));
+        this.buttonManager.register(new NoneLoader(this, ZShowConfirmItemButton.class, "zshop_show_confirm"));
 
     }
 

@@ -3,10 +3,10 @@ package fr.maxlego08.zshop.api.buttons;
 import fr.maxlego08.menu.api.button.Button;
 import org.bukkit.entity.Player;
 
-public interface AddButton extends Button {
+public abstract class AddButton extends Button {
 
-    String getAmount();
+    public abstract String getAmount();
 
-    int parseInt(Player player);
+    public abstract int parseInt(Player player);
 
 }
