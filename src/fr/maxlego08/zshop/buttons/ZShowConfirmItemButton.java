@@ -1,6 +1,5 @@
 package fr.maxlego08.zshop.buttons;
 
-import fr.maxlego08.menu.button.ZButton;
 import fr.maxlego08.zshop.ShopPlugin;
 import fr.maxlego08.zshop.api.PlayerCache;
 import fr.maxlego08.zshop.api.buttons.EconomyAction;
@@ -9,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-public class ZShowConfirmItemButton extends ZButton implements ShowConfirmItemButton {
+public class ZShowConfirmItemButton extends ShowConfirmItemButton {
 
     private final ShopPlugin plugin;
 

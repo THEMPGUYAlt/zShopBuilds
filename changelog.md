@@ -4,6 +4,10 @@
 
 # Unreleased
 
+# 3.2.1
+
+- Update to zMenu 1.1.0.0
+
 # 3.2.0
 
 - Update to last zMenu Version

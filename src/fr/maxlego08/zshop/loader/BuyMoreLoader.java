@@ -9,27 +9,13 @@ import fr.maxlego08.zshop.buttons.ZBuyMore;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-public class BuyMoreLoader implements ButtonLoader {
+public class BuyMoreLoader extends ButtonLoader {
 
     private final ShopPlugin plugin;
 
     public BuyMoreLoader(ShopPlugin plugin) {
+        super(plugin, "zshop_buy_more");
         this.plugin = plugin;
-    }
-
-    @Override
-    public Class<? extends Button> getButton() {
-        return AddButton.class;
-    }
-
-    @Override
-    public String getName() {
-        return "zshop_buy_more";
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return this.plugin;
     }
 
     @Override

@@ -1,21 +1,22 @@
 package fr.maxlego08.zshop.api.buttons;
 
+import fr.maxlego08.menu.api.requirement.Action;
 import fr.maxlego08.zshop.api.economy.ShopEconomy;
 
 import java.util.List;
 
-public interface ItemConfirmButton extends EconomyAction {
+public abstract class ItemConfirmButton extends EconomyAction {
 
-    double getPrice();
+    public abstract double getPrice();
 
-    ShopEconomy getShopEconomy();
+    public abstract ShopEconomy getShopEconomy();
 
-    List<String> getCommands();
+    public abstract List<Action> getPurchaseCommands();
 
-    boolean enableLog();
+    public abstract boolean enableLog();
 
-    String getName();
+    public abstract String getName();
 
-    String getInventoryConfirm();
+    public abstract String getInventoryConfirm();
 
 }
