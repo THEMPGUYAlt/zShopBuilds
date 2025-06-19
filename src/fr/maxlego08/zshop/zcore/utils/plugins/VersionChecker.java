@@ -93,7 +93,7 @@ public class VersionChecker implements Listener {
 	 *            - Do something after
 	 */
 	public void getVersion(Consumer<String> consumer) {
-		plugin.getIManager().getScheduler().runTaskAsynchronously(() -> {
+		plugin.getIManager().getScheduler().runAsync(w -> {
 			final String apiURL = String.format(URL_API, this.pluginID);
 			try {
 				URL url = new URL(apiURL);

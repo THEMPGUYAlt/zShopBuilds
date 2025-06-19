@@ -5,14 +5,12 @@ import fr.maxlego08.menu.api.button.DefaultButtonValue;
 import fr.maxlego08.menu.api.loader.ButtonLoader;
 import fr.maxlego08.menu.api.requirement.Action;
 import fr.maxlego08.zshop.ShopPlugin;
-import fr.maxlego08.zshop.api.buttons.ItemConfirmButton;
 import fr.maxlego08.zshop.api.economy.ShopEconomy;
 import fr.maxlego08.zshop.buttons.ZItemConfirmButton;
 import fr.maxlego08.zshop.exceptions.EconomyNotFoundException;
 import fr.maxlego08.zshop.save.Config;
 import fr.maxlego08.zshop.zcore.logger.Logger;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,27 +18,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class ItemConfirmButtonLoader implements ButtonLoader {
+public class ItemConfirmButtonLoader extends ButtonLoader {
 
     private final ShopPlugin plugin;
 
     public ItemConfirmButtonLoader(ShopPlugin plugin) {
+        super(plugin, "zshop_item_confirm");
         this.plugin = plugin;
-    }
-
-    @Override
-    public Class<? extends Button> getButton() {
-        return ItemConfirmButton.class;
-    }
-
-    @Override
-    public String getName() {
-        return "zshop_item_confirm";
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return this.plugin;
     }
 
     @Override

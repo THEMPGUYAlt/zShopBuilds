@@ -1,8 +1,9 @@
 package fr.maxlego08.zshop.buttons;
 
 import fr.maxlego08.menu.api.Inventory;
-import fr.maxlego08.menu.button.ZButton;
-import fr.maxlego08.menu.inventory.inventories.InventoryDefault;
+import fr.maxlego08.menu.api.button.Button;
+import fr.maxlego08.menu.api.engine.InventoryEngine;
+import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.zshop.ShopPlugin;
 import fr.maxlego08.zshop.api.PlayerCache;
 import fr.maxlego08.zshop.api.buttons.ShowItemButton;
@@ -11,11 +12,11 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class ConfirmationButton extends ZButton {
+public class ConfirmationButton extends Button {
 
     private Inventory inventory;
 
-    protected void action(Player player, InventoryDefault inventory, ConfirmAction confirmAction, ShopPlugin plugin, PlayerCache cache) {
+    protected void action(Player player, InventoryEngine inventory, ConfirmAction confirmAction, ShopPlugin plugin, PlayerCache cache) {
         switch (confirmAction) {
             case CLOSE:
                 player.closeInventory();
@@ -37,7 +38,8 @@ public class ConfirmationButton extends ZButton {
     }
 
     @Override
-    public void onInventoryOpen(Player player, InventoryDefault inventory) {
+    public void onInventoryOpen(Player player, InventoryEngine inventory, Placeholders placeholders) {
+        super.onInventoryOpen(player, inventory, placeholders);
         List<Inventory> oldInventories = inventory.getOldInventories();
         if (!oldInventories.isEmpty()) {
             this.inventory = oldInventories.get(oldInventories.size() - 1);

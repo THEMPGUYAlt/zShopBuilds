@@ -1,9 +1,8 @@
 package fr.maxlego08.zshop.buttons;
 
+import fr.maxlego08.menu.api.engine.InventoryEngine;
 import fr.maxlego08.menu.api.requirement.Action;
 import fr.maxlego08.menu.api.utils.Placeholders;
-import fr.maxlego08.menu.button.ZButton;
-import fr.maxlego08.menu.inventory.inventories.InventoryDefault;
 import fr.maxlego08.zshop.ShopPlugin;
 import fr.maxlego08.zshop.ZShopManager;
 import fr.maxlego08.zshop.api.buttons.ItemConfirmButton;
@@ -18,7 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.List;
 
-public class ZItemConfirmButton extends ZButton implements ItemConfirmButton {
+public class ZItemConfirmButton extends ItemConfirmButton {
 
     private final ShopPlugin plugin;
     private final ShopEconomy shopEconomy;
@@ -48,6 +47,11 @@ public class ZItemConfirmButton extends ZButton implements ItemConfirmButton {
     @Override
     public ShopEconomy getShopEconomy() {
         return this.shopEconomy;
+    }
+
+    @Override
+    public List<Action> getPurchaseCommands() {
+        return this.confirmActions;
     }
 
     @Override
@@ -102,7 +106,7 @@ public class ZItemConfirmButton extends ZButton implements ItemConfirmButton {
     }
 
     @Override
-    public void onClick(Player player, InventoryClickEvent event, InventoryDefault inventory, int slot, Placeholders placeholders) {
+    public void onClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot, Placeholders placeholders) {
         super.onClick(player, event, inventory, slot, placeholders);
         this.plugin.getShopManager().openConfirm(player, this, this.inventoryConfirm);
     }

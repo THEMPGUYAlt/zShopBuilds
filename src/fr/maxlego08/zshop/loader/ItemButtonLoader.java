@@ -4,7 +4,6 @@ import fr.maxlego08.menu.api.button.Button;
 import fr.maxlego08.menu.api.button.DefaultButtonValue;
 import fr.maxlego08.menu.api.loader.ButtonLoader;
 import fr.maxlego08.zshop.ShopPlugin;
-import fr.maxlego08.zshop.api.buttons.ItemButton;
 import fr.maxlego08.zshop.api.economy.ShopEconomy;
 import fr.maxlego08.zshop.api.limit.Limit;
 import fr.maxlego08.zshop.api.limit.LimitType;
@@ -13,32 +12,17 @@ import fr.maxlego08.zshop.exceptions.EconomyNotFoundException;
 import fr.maxlego08.zshop.save.Config;
 import fr.maxlego08.zshop.zcore.utils.loader.Loader;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ItemButtonLoader implements ButtonLoader {
+public class ItemButtonLoader extends ButtonLoader {
 
     private final ShopPlugin plugin;
 
     public ItemButtonLoader(ShopPlugin plugin) {
+        super(plugin, "zshop_item");
         this.plugin = plugin;
-    }
-
-    @Override
-    public Class<? extends Button> getButton() {
-        return ItemButton.class;
-    }
-
-    @Override
-    public String getName() {
-        return "zshop_item";
-    }
-
-    @Override
-    public Plugin getPlugin() {
-        return this.plugin;
     }
 
     @Override

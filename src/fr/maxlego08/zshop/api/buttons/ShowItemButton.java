@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public interface ShowItemButton extends Button {
+public abstract class ShowItemButton extends Button {
 
-    List<String> getLore();
+    public abstract List<String> getLore();
 
 }

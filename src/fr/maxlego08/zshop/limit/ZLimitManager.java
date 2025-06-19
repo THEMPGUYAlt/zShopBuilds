@@ -187,7 +187,7 @@ public class ZLimitManager extends ZUtils implements LimiterManager, Saveable, L
 
     @Override
     public void verifyPlayersLimit() {
-        this.plugin.getIManager().getScheduler().runTaskAsynchronously(() -> {
+        this.plugin.getIManager().getScheduler().runAsync(w -> {
             Iterator<Map.Entry<UUID, ZPlayerLimit>> iterator = this.players.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<UUID, ZPlayerLimit> entry = iterator.next();
