@@ -1,6 +1,6 @@
 name: zShop
 author: Maxlego08
-main: fr.maxlego08.zshop.ShopPlugin
+main: fr.maxlego08.shop.ShopPlugin
 website: https://groupez.dev
 description: Shop plugin
 version: 3.2.1
