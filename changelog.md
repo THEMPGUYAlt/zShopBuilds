@@ -4,6 +4,10 @@
 
 # Unreleased
 
+# 3.3.0
+
+- Update to gradle
+
 # 3.2.1
 
 - Update to zMenu 1.1.0.0
