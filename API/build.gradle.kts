@@ -8,7 +8,7 @@ rootProject.extra.properties["sha"]?.let { sha ->
 
 tasks {
     shadowJar {
-
+        relocate("fr.traqueur.currencies", "fr.maxlego08.zshop.currencies")
 
         destinationDirectory.set(rootProject.extra["apiFolder"] as File)
     }

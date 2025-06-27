@@ -1,6 +1,5 @@
 package fr.maxlego08.shop;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import fr.maxlego08.menu.api.Inventory;
 import fr.maxlego08.menu.api.InventoryManager;
 import fr.maxlego08.menu.api.button.Button;
@@ -310,8 +309,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
     private void openInventory(Player player, EconomyAction economyAction, String inventoryName) {
         PlayerCache playerCache = getCache(player);
 
-        if (economyAction instanceof ItemButton) {
-            ItemButton button = (ItemButton) economyAction;
+        if (economyAction instanceof ItemButton button) {
             playerCache.setItemButton(button);
             playerCache.setItemAmount(button.getItemStack().parseAmount(player));
         }
@@ -547,17 +545,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
     private EntityType getEntityType(ItemStack itemStack) {
         if (itemStack == null) return EntityType.UNKNOWN;
 
-        if (NmsVersion.nmsVersion.isItemStackComponent()) {
-            return ItemStackSpawnerHelper.getEntityType(itemStack);
-        }
-
-        NBTItem nbtItem = new NBTItem(itemStack);
-        if (!nbtItem.hasTag(ItemButton.nbtMobSpawnerKey)) return EntityType.UNKNOWN;
-        try {
-            return EntityType.valueOf(nbtItem.getString(ItemButton.nbtMobSpawnerKey));
-        } catch (Exception ignored) {
-            return EntityType.UNKNOWN;
-        }
+        return ItemStackSpawnerHelper.getEntityType(itemStack);
     }
 
     @Override

@@ -40,7 +40,7 @@ allprojects {
 
     tasks.shadowJar {
 
-        archiveBaseName.set("zMenu")
+        archiveBaseName.set("zShop")
         archiveAppendix.set(if (project.path == ":") "" else project.name)
         archiveClassifier.set("")
     }
@@ -75,7 +75,6 @@ dependencies {
 
 tasks {
     shadowJar {
-
 
         rootProject.extra.properties["sha"]?.let { sha ->
             archiveClassifier.set("${rootProject.extra.properties["classifier"]}-${sha}")

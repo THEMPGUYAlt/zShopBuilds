@@ -1,8 +1,6 @@
 package fr.maxlego08.shop.zcore.utils;
 
 import com.google.common.base.Strings;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.zcore.enums.EnumInventory;
 import fr.maxlego08.shop.zcore.enums.Message;
@@ -31,7 +29,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.Plugin;
@@ -51,7 +48,6 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
@@ -62,9 +58,9 @@ import java.util.stream.Stream;
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
 
-    private static transient List<String> teleportPlayers = new ArrayList<String>();
+    private static final List<String> teleportPlayers = new ArrayList<String>();
     // For plugin support from 1.8 to 1.12
-    private static transient Material[] byId;
+    private static Material[] byId;
 
     static {
         if (!NmsVersion.nmsVersion.isNewMaterial()) {
@@ -102,8 +98,7 @@ public abstract class ZUtils extends MessageUtils {
         PlayerInventory inventory = player.getInventory();
         for (int a = 0; a != 36; a++) {
             ItemStack itemStack = inventory.getContents()[a];
-            if (itemStack == null)
-                slot++;
+            if (itemStack == null) slot++;
         }
         return slot == 0;
     }
@@ -153,62 +148,27 @@ public abstract class ZUtils extends MessageUtils {
         return itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName();
     }
 
-    /**
-     * Check if the item name is the same as the given string
-     *
-     * @param stack
-     * @param name
-     * @return true if the item name is the same as string
-     */
     protected boolean same(ItemStack itemStack, String name) {
         return this.hasDisplayName(itemStack) && itemStack.getItemMeta().getDisplayName().equals(name);
     }
 
-    /**
-     * Check if the item name contains the given string
-     *
-     * @param stack
-     * @param name
-     * @return true if the item name contains the string
-     */
     protected boolean contains(ItemStack itemStack, String name) {
         return this.hasDisplayName(itemStack) && itemStack.getItemMeta().getDisplayName().contains(name);
     }
 
-    /**
-     * Remove the item from the player's hand
-     *
-     * @param player
-     * @param number of items to withdraw
-     */
     protected void removeItemInHand(Player player) {
         removeItemInHand(player, 64);
     }
 
-    /**
-     * Remove the item from the player's hand
-     *
-     * @param player
-     * @param number of items to withdraw
-     */
     protected void removeItemInHand(Player player, int how) {
         if (player.getItemInHand().getAmount() > how)
             player.getItemInHand().setAmount(player.getItemInHand().getAmount() - how);
-        else
-            player.setItemInHand(new ItemStack(Material.AIR));
+        else player.setItemInHand(new ItemStack(Material.AIR));
         player.updateInventory();
     }
 
-    /**
-     * Check if two locations are identical
-     *
-     * @param first  location
-     * @param second location
-     * @return true if both rentals are the same
-     */
     protected boolean same(Location l, Location l2) {
-        return (l.getBlockX() == l2.getBlockX()) && (l.getBlockY() == l2.getBlockY())
-                && (l.getBlockZ() == l2.getBlockZ()) && l.getWorld().getName().equals(l2.getWorld().getName());
+        return (l.getBlockX() == l2.getBlockX()) && (l.getBlockY() == l2.getBlockY()) && (l.getBlockZ() == l2.getBlockZ()) && l.getWorld().getName().equals(l2.getWorld().getName());
     }
 
     /**
@@ -270,8 +230,7 @@ public abstract class ZUtils extends MessageUtils {
 
             @Override
             public void run() {
-                if (runnable != null)
-                    runnable.run();
+                if (runnable != null) runnable.run();
             }
         }, delay);
     }
@@ -294,10 +253,6 @@ public abstract class ZUtils extends MessageUtils {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    /**
-     * @param string
-     * @return
-     */
     protected String name(ItemStack itemStack) {
         return this.getItemName(itemStack);
     }
@@ -325,7 +280,7 @@ public abstract class ZUtils extends MessageUtils {
      * @return
      */
     protected double percent(double value, double total) {
-        return (double) ((value * 100) / total);
+        return (value * 100) / total;
     }
 
     /**
@@ -334,7 +289,7 @@ public abstract class ZUtils extends MessageUtils {
      * @return
      */
     protected double percentNum(double total, double percent) {
-        return (double) (total * (percent / 100));
+        return total * (percent / 100);
     }
 
     /**
@@ -368,32 +323,16 @@ public abstract class ZUtils extends MessageUtils {
         }, 0, delay);
     }
 
-    /**
-     * @param player
-     * @param inventoryId
-     */
     protected void createInventory(ShopPlugin plugin, Player player, EnumInventory inventory) {
         createInventory(plugin, player, inventory, 1);
     }
 
-    /**
-     * @param player
-     * @param inventoryId
-     * @param page
-     */
     protected void createInventory(ShopPlugin plugin, Player player, EnumInventory inventory, int page) {
         createInventory(plugin, player, inventory, page, new Object() {
         });
     }
 
-    /**
-     * @param player
-     * @param inventoryId
-     * @param page
-     * @param objects
-     */
-    protected void createInventory(ShopPlugin plugin, Player player, EnumInventory inventory, int page,
-                                   Object... objects) {
+    protected void createInventory(ShopPlugin plugin, Player player, EnumInventory inventory, int page, Object... objects) {
         plugin.getInventoryManager().createInventory(inventory, player, page, objects);
     }
 
@@ -425,20 +364,10 @@ public abstract class ZUtils extends MessageUtils {
         return permissible.hasPermission(permission);
     }
 
-    /**
-     * @param delay
-     * @param runnable
-     */
     protected TimerTask scheduleFix(Plugin plugin, long delay, BiConsumer<TimerTask, Boolean> consumer) {
         return this.scheduleFix(plugin, delay, delay, consumer);
     }
 
-    /**
-     * @param plugin
-     * @param startAt
-     * @param delay
-     * @param runnable
-     */
     protected TimerTask scheduleFix(Plugin plugin, long startAt, long delay, BiConsumer<TimerTask, Boolean> consumer) {
         TimerTask task = new TimerTask() {
             @Override
@@ -455,12 +384,6 @@ public abstract class ZUtils extends MessageUtils {
         return task;
     }
 
-    /**
-     * Get random element from list
-     *
-     * @param elements
-     * @return element
-     */
     protected <T> T randomElement(List<T> element) {
         if (element.size() == 0) {
             return null;
@@ -477,8 +400,7 @@ public abstract class ZUtils extends MessageUtils {
      * @return
      */
     public String color(String message) {
-        if (message == null)
-            return null;
+        if (message == null) return null;
         if (NmsVersion.nmsVersion.isHexVersion()) {
             Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
             Matcher matcher = pattern.matcher(message);
@@ -521,8 +443,7 @@ public abstract class ZUtils extends MessageUtils {
      */
     protected ItemFlag getFlag(String flagString) {
         for (ItemFlag flag : ItemFlag.values()) {
-            if (flag.name().equalsIgnoreCase(flagString))
-                return flag;
+            if (flag.name().equalsIgnoreCase(flagString)) return flag;
         }
         return null;
     }
@@ -565,10 +486,6 @@ public abstract class ZUtils extends MessageUtils {
         return new TextComponent(message);
     }
 
-    /**
-     * @param message
-     * @return
-     */
     protected TextComponent setHoverMessage(TextComponent component, String... messages) {
         BaseComponent[] list = new BaseComponent[messages.length];
         for (int a = 0; a != messages.length; a++)
@@ -577,10 +494,6 @@ public abstract class ZUtils extends MessageUtils {
         return component;
     }
 
-    /**
-     * @param message
-     * @return
-     */
     protected TextComponent setHoverMessage(TextComponent component, List<String> messages) {
         BaseComponent[] list = new BaseComponent[messages.size()];
         for (int a = 0; a != messages.size(); a++)
@@ -595,8 +508,7 @@ public abstract class ZUtils extends MessageUtils {
      * @param command
      * @return
      */
-    protected TextComponent setClickAction(TextComponent component, net.md_5.bungee.api.chat.ClickEvent.Action action,
-                                           String command) {
+    protected TextComponent setClickAction(TextComponent component, net.md_5.bungee.api.chat.ClickEvent.Action action, String command) {
         component.setClickEvent(new ClickEvent(action, command));
         return component;
     }
@@ -606,16 +518,11 @@ public abstract class ZUtils extends MessageUtils {
      * @return
      */
     protected String getDisplayBalence(double value) {
-        if (value < 10000)
-            return format(value, "#.#");
-        else if (value < 1000000)
-            return String.valueOf(Integer.valueOf((int) (value / 1000))) + "k ";
-        else if (value < 1000000000)
-            return String.valueOf(format((value / 1000) / 1000, "#.#")) + "m ";
-        else if (value < 1000000000000l)
-            return String.valueOf(Integer.valueOf((int) (((value / 1000) / 1000) / 1000))) + "M ";
-        else
-            return "to much";
+        if (value < 10000) return format(value, "#.#");
+        else if (value < 1000000) return Integer.valueOf((int) (value / 1000)) + "k ";
+        else if (value < 1000000000) return format((value / 1000) / 1000, "#.#") + "m ";
+        else if (value < 1000000000000L) return Integer.valueOf((int) (((value / 1000) / 1000) / 1000)) + "M ";
+        else return "to much";
     }
 
     /**
@@ -623,16 +530,11 @@ public abstract class ZUtils extends MessageUtils {
      * @return
      */
     protected String getDisplayBalence(long value) {
-        if (value < 10000)
-            return format(value, "#.#");
-        else if (value < 1000000)
-            return String.valueOf(Integer.valueOf((int) (value / 1000))) + "k ";
-        else if (value < 1000000000)
-            return String.valueOf(format((value / 1000) / 1000, "#.#")) + "m ";
-        else if (value < 1000000000000l)
-            return String.valueOf(Integer.valueOf((int) (((value / 1000) / 1000) / 1000))) + "M ";
-        else
-            return "to much";
+        if (value < 10000) return format(value, "#.#");
+        else if (value < 1000000) return Integer.valueOf((int) (value / 1000)) + "k ";
+        else if (value < 1000000000) return format((value / 1000) / 1000, "#.#") + "m ";
+        else if (value < 1000000000000L) return Integer.valueOf((int) (((value / 1000) / 1000) / 1000)) + "M ";
+        else return "to much";
     }
 
     /**
@@ -645,15 +547,13 @@ public abstract class ZUtils extends MessageUtils {
     protected int count(org.bukkit.inventory.Inventory inventory, Material material) {
         int count = 0;
         for (ItemStack itemStack : inventory.getContents())
-            if (itemStack != null && itemStack.getType().equals(material))
-                count += itemStack.getAmount();
+            if (itemStack != null && itemStack.getType().equals(material)) count += itemStack.getAmount();
         return count;
     }
 
     protected Enchantment enchantFromString(String str) {
         for (Enchantment enchantment : Enchantment.values())
-            if (enchantment.getName().equalsIgnoreCase(str))
-                return enchantment;
+            if (enchantment.getName().equalsIgnoreCase(str)) return enchantment;
         return null;
     }
 
@@ -665,8 +565,7 @@ public abstract class ZUtils extends MessageUtils {
 
         direction = direction % 360;
 
-        if (direction < 0)
-            direction += 360;
+        if (direction < 0) direction += 360;
 
         direction = Math.round(direction / 45);
 
@@ -719,8 +618,7 @@ public abstract class ZUtils extends MessageUtils {
      * @return
      */
     protected boolean hasEnchant(Enchantment enchantment, ItemStack itemStack) {
-        return itemStack.hasItemMeta() && itemStack.getItemMeta().hasEnchants()
-                && itemStack.getItemMeta().hasEnchant(enchantment);
+        return itemStack.hasItemMeta() && itemStack.getItemMeta().hasEnchants() && itemStack.getItemMeta().hasEnchant(enchantment);
     }
 
     /**
@@ -749,13 +647,10 @@ public abstract class ZUtils extends MessageUtils {
      */
     protected boolean isCooldown(Player player, String cooldown, int timer) {
         if (CooldownBuilder.isCooldown(cooldown, player)) {
-            ActionBar.sendActionBar(player,
-                    String.format("§cVous devez attendre encore §6%s §cavant de pouvoir faire cette action.",
-                            timerFormat(player, cooldown)));
+            ActionBar.sendActionBar(player, String.format("§cVous devez attendre encore §6%s §cavant de pouvoir faire cette action.", timerFormat(player, cooldown)));
             return true;
         }
-        if (timer > 0)
-            CooldownBuilder.addCooldown(cooldown, player, timer);
+        if (timer > 0) CooldownBuilder.addCooldown(cooldown, player, timer);
         return false;
     }
 
@@ -828,28 +723,22 @@ public abstract class ZUtils extends MessageUtils {
      * @return itemstack
      */
     public ItemStack playerHead(ItemStack itemStack, OfflinePlayer player) {
-        String name = itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()
-                ? itemStack.getItemMeta().getDisplayName() : null;
+        String name = itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : null;
         if (NmsVersion.nmsVersion.isNewMaterial()) {
             if (itemStack.getType().equals(Material.PLAYER_HEAD) && name != null && name.startsWith("HEAD")) {
                 SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
                 name = name.replace("HEAD", "");
-                if (name.length() == 0)
-                    meta.setDisplayName(null);
-                else
-                    meta.setDisplayName(name);
+                if (name.length() == 0) meta.setDisplayName(null);
+                else meta.setDisplayName(name);
                 meta.setOwningPlayer(player);
                 itemStack.setItemMeta(meta);
             }
         } else {
-            if (itemStack.getType().equals(getMaterial(397)) && itemStack.getData().getData() == 3 && name != null
-                    && name.startsWith("HEAD")) {
+            if (itemStack.getType().equals(getMaterial(397)) && itemStack.getData().getData() == 3 && name != null && name.startsWith("HEAD")) {
                 SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
                 name = name.replace("HEAD", "");
-                if (name.length() == 0)
-                    meta.setDisplayName(null);
-                else
-                    meta.setDisplayName(name);
+                if (name.length() == 0) meta.setDisplayName(null);
+                else meta.setDisplayName(name);
                 meta.setOwner(player.getName());
                 itemStack.setItemMeta(meta);
             }
@@ -863,8 +752,7 @@ public abstract class ZUtils extends MessageUtils {
      * @return itemstack
      */
     protected ItemStack playerHead() {
-        return NmsVersion.nmsVersion.isNewMaterial() ? new ItemStack(Material.PLAYER_HEAD)
-                : new ItemStack(getMaterial(397), 1, (byte) 3);
+        return NmsVersion.nmsVersion.isNewMaterial() ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(getMaterial(397), 1, (byte) 3);
     }
 
     /**
@@ -876,9 +764,8 @@ public abstract class ZUtils extends MessageUtils {
      */
     protected <T> T getProvider(Plugin plugin, Class<T> classz) {
         RegisteredServiceProvider<T> provider = plugin.getServer().getServicesManager().getRegistration(classz);
-        if (provider == null)
-            return null;
-        return provider.getProvider() != null ? (T) provider.getProvider() : null;
+        if (provider == null) return null;
+        return provider.getProvider() != null ? provider.getProvider() : null;
     }
 
     /**
@@ -898,83 +785,22 @@ public abstract class ZUtils extends MessageUtils {
         plugin.getIManager().getScheduler().runAsync(w -> runnable.run());
     }
 
-    /**
-     * Allows you to create a head from a URL
-     *
-     * @param url
-     * @return itemstack
-     */
-    protected ItemStack createSkull(String url) {
-
-        ItemStack head = playerHead();
-        if (url.isEmpty())
-            return head;
-
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-
-        profile.getProperties().put("textures", new Property("textures", url));
-
-        try {
-            Field profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
-
-        } catch (IllegalArgumentException | NoSuchFieldException | SecurityException | IllegalAccessException error) {
-            error.printStackTrace();
-        }
-        head.setItemMeta(headMeta);
-        return head;
-    }
-
-    /**
-     * Allows to check if an itemstack and a head
-     *
-     * @param itemStack
-     * @return boolean
-     */
-    protected boolean isPlayerHead(ItemStack itemStack) {
-        Material material = itemStack.getType();
-        if (NmsVersion.nmsVersion.isNewMaterial())
-            return material.equals(Material.PLAYER_HEAD);
-        return (material.equals(getMaterial(397))) && (itemStack.getDurability() == 3);
-    }
-
-    /**
-     * @param object
-     * @param field
-     * @return
-     * @throws SecurityException
-     * @throws NoSuchFieldException
-     * @throws IllegalArgumentException
-     * @throws IllegalAccessException
-     */
-    protected Object getPrivateField(Object object, String field)
-            throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+    protected Object getPrivateField(Object object, String field) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         Class<?> clazz = object.getClass();
-        Field objectField = field.equals("commandMap") ? clazz.getDeclaredField(field)
-                : field.equals("knownCommands") ? NmsVersion.nmsVersion.isNewMaterial()
-                ? clazz.getSuperclass().getDeclaredField(field) : clazz.getDeclaredField(field) : null;
+        Field objectField = field.equals("commandMap") ? clazz.getDeclaredField(field) : field.equals("knownCommands") ? NmsVersion.nmsVersion.isNewMaterial() ? clazz.getSuperclass().getDeclaredField(field) : clazz.getDeclaredField(field) : null;
         objectField.setAccessible(true);
         Object result = objectField.get(object);
         objectField.setAccessible(false);
         return result;
     }
 
-    /**
-     * Unregister a bukkit command
-     *
-     * @param plugin
-     * @param command
-     */
     protected void unRegisterBukkitCommand(Plugin plugin, PluginCommand command) {
         try {
             Object result = getPrivateField(plugin.getServer().getPluginManager(), "commandMap");
             SimpleCommandMap commandMap = (SimpleCommandMap) result;
 
             Object map = getPrivateField(commandMap, "knownCommands");
-            @SuppressWarnings("unchecked")
-            HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
+            @SuppressWarnings("unchecked") HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
             knownCommands.remove(command.getName());
             for (String alias : command.getAliases()) {
                 knownCommands.remove(alias);
@@ -988,24 +814,6 @@ public abstract class ZUtils extends MessageUtils {
         }
     }
 
-    /**
-     * Allows to make an itemstack shine
-     *
-     * @param itemStack
-     */
-    public void glow(ItemStack itemStack) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemStack.setItemMeta(itemMeta);
-    }
-
-    /**
-     * Allows you to clear a player's inventory, remove potion effects and put
-     * him on life support
-     *
-     * @param player
-     */
     protected void clearPlayer(Player player) {
         player.getInventory().clear();
         player.getInventory().setBoots(null);
@@ -1021,46 +829,17 @@ public abstract class ZUtils extends MessageUtils {
         });
     }
 
-    /**
-     * Create a progress bar
-     * https://www.spigotmc.org/threads/progress-bars-and-percentages.276020/
-     *
-     * @param current
-     * @param max
-     * @param totalBars
-     * @param symbol
-     * @param completedColor
-     * @param notCompletedColor
-     * @return string
-     */
-    public String getProgressBar(int current, int max, int totalBars, char symbol, String completedColor,
-                                 String notCompletedColor) {
+    public String getProgressBar(int current, int max, int totalBars, char symbol, String completedColor, String notCompletedColor) {
         float percent = (float) current / max;
         int progressBars = (int) (totalBars * percent);
 
-        return Strings.repeat(completedColor + symbol, progressBars)
-                + Strings.repeat(notCompletedColor + symbol, totalBars - progressBars);
+        return Strings.repeat(completedColor + symbol, progressBars) + Strings.repeat(notCompletedColor + symbol, totalBars - progressBars);
     }
 
-    /**
-     * Create a progress bar
-     *
-     * @param current
-     * @param max
-     * @param progressBar
-     * @return string
-     */
     public String getProgressBar(int current, int max, ProgressBar progressBar) {
-        return this.getProgressBar(current, max, progressBar.getLenght(), progressBar.getSymbol(),
-                progressBar.getCompletedColor(), progressBar.getNotCompletedColor());
+        return this.getProgressBar(current, max, progressBar.getLenght(), progressBar.getSymbol(), progressBar.getCompletedColor(), progressBar.getNotCompletedColor());
     }
 
-    /**
-     * Allows you to check if an inventory will contain armor or items
-     *
-     * @param player
-     * @return boolean
-     */
     protected boolean inventoryHasItem(Player player) {
 
         ItemStack itemStack = player.getInventory().getBoots();

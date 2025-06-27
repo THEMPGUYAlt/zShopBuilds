@@ -34,11 +34,7 @@ public abstract class TranslationHelper {
     }
 
     public String getTranslationName(ItemStack itemStack) {
-        try {
-            return itemStack.getType().translationKey();
-        } catch (Exception exception) {
-            return getItemName(itemStack);
-        }
+        return getItemName(itemStack);
     }
 
     private String convertOldHexString(String string) {

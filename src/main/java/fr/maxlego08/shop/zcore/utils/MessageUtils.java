@@ -136,11 +136,6 @@ public abstract class MessageUtils extends LocationUtils {
         }
     }
 
-    /**
-     * @param player
-     * @param message
-     * @param args
-     */
     public void broadcast(ShopPlugin plugin, Message message, Object... args) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             message(plugin, player, message, args);
@@ -148,11 +143,6 @@ public abstract class MessageUtils extends LocationUtils {
         message(plugin, Bukkit.getConsoleSender(), message, args);
     }
 
-    /**
-     * @param player
-     * @param message
-     * @param args
-     */
     public void actionMessage(Player player, Message message, Object... args) {
         ActionBar.sendActionBar(player, this.papi(getMessage(message, args), player));
     }

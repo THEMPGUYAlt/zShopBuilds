@@ -214,12 +214,6 @@ public abstract class ZPlugin extends JavaPlugin {
         return plugin != null && plugin.isEnabled();
     }
 
-    /**
-     * Get plugin for plugins enum
-     *
-     * @param pluginName
-     * @return
-     */
     protected Plugin getPlugin(Plugins plugin) {
         return Bukkit.getPluginManager().getPlugin(plugin.getName());
     }

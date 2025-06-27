@@ -1,8 +1,8 @@
 package fr.maxlego08.shop.economy;
 
+import fr.maxlego08.menu.hooks.currencies.CurrencyProvider;
 import fr.maxlego08.shop.api.economy.ShopEconomy;
 import fr.maxlego08.shop.zcore.utils.ZUtils;
-import fr.traqueur.currencies.CurrencyProvider;
 import org.bukkit.OfflinePlayer;
 
 import java.math.BigDecimal;

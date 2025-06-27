@@ -1,6 +1,5 @@
 package fr.maxlego08.shop.buttons;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import fr.maxlego08.menu.api.MenuItemStack;
 import fr.maxlego08.menu.api.engine.InventoryEngine;
 import fr.maxlego08.menu.api.utils.MetaUpdater;
@@ -25,7 +24,6 @@ import fr.maxlego08.shop.save.LogConfig;
 import fr.maxlego08.shop.zcore.enums.Message;
 import fr.maxlego08.shop.zcore.logger.Logger;
 import fr.maxlego08.shop.zcore.utils.ItemStackSpawnerHelper;
-import fr.maxlego08.shop.zcore.utils.nms.NmsVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -267,13 +265,7 @@ public class ZItemButton extends ItemButton {
         /* BUILD ITEM AND GIVE IT TO PLAYER */
 
         if (this.mob != null) {
-            if (NmsVersion.nmsVersion.isItemStackComponent()) {
-                ItemStackSpawnerHelper.setEntityType(itemStack, this.mob.toUpperCase());
-            } else {
-                NBTItem nbtItem = new NBTItem(itemStack);
-                nbtItem.setString(ItemButton.nbtMobSpawnerKey, this.mob.toUpperCase());
-                itemStack = nbtItem.getItem();
-            }
+            ItemStackSpawnerHelper.setEntityType(itemStack, this.mob.toUpperCase());
         }
 
         itemStack.setAmount(amount);

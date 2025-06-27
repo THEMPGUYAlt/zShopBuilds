@@ -1,14 +1,13 @@
 package fr.maxlego08.shop.economy;
 
+import fr.maxlego08.menu.hooks.currencies.Currencies;
+import fr.maxlego08.menu.hooks.currencies.CurrencyProvider;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.api.economy.EconomyManager;
 import fr.maxlego08.shop.api.economy.ShopEconomy;
 import fr.maxlego08.shop.api.event.events.ZShopEconomyRegisterEvent;
 import fr.maxlego08.shop.save.Config;
 import fr.maxlego08.shop.zcore.logger.Logger;
-import fr.traqueur.currencies.Currencies;
-import fr.traqueur.currencies.CurrencyProvider;
-import fr.traqueur.currencies.providers.ZEssentialsProvider;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -66,32 +65,22 @@ public class ZEconomyManager implements EconomyManager {
         for (String key : configuration.getConfigurationSection("economies.").getKeys(false)) {
             String path = "economies." + key + ".";
 
-            if (!configuration.getBoolean(path + "isEnable")) continue;
+            if (!configuration.getBoolean(path + "isEnable", configuration.getBoolean(path + "is-enable"))) continue;
 
             String name = configuration.getString(path + "name", "VAULT");
             String type = configuration.getString(path + "type", "VAULT");
             String currency = configuration.getString(path + "currency", "$");
-            String denyMessage = configuration.getString(path + "denyMessage");
+            String denyMessage = configuration.getString(path + "denyMessage", configuration.getString(path + "deny-message"));
 
             Currencies currencies = Currencies.valueOf(type.toUpperCase());
-            CurrencyProvider currencyProvider = null;
-
-            switch (currencies) {
-                case ZMENUITEMS:
-                case ITEM:
-                    currencyProvider = Currencies.ZMENUITEMS.createProvider(plugin, file, path + "item.");
-                    break;
-                case ZESSENTIALS:
-                case ECOBITS:
-                case COINSENGINE:
-                case REDISECONOMY:
-                    String currencyName = configuration.getString(path + "currencyName");
-                    currencyProvider = currencies.createProvider(currencyName);
-                    break;
-                default:
-                    currencyProvider = currencies.createProvider();
-                    break;
-            }
+            CurrencyProvider currencyProvider = switch (currencies) {
+                case ZMENUITEMS, ITEM -> Currencies.ZMENUITEMS.createProvider(plugin, file, path + "item.");
+                case ZESSENTIALS, ECOBITS, COINSENGINE, REDISECONOMY -> {
+                    String currencyName = configuration.getString(path + "currencyName", configuration.getString(path + "currency-name"));
+                    yield currencies.createProvider(currencyName);
+                }
+                default -> currencies.createProvider();
+            };
 
             if (Config.enableDebug) Logger.info("Register Vault economy");
             registerEconomy(new ZShopEconomy(name, currency, denyMessage, currencyProvider));
