@@ -30,6 +30,7 @@ allprojects {
         maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
         maven(url = "https://libraries.minecraft.net/")
+        maven(url = "https://repo.groupez.dev/releases")
     }
 
     java {
@@ -38,31 +39,6 @@ allprojects {
     }
 
     tasks.shadowJar {
-        exclude("com/cryptomorin/xseries/profiles/**")
-        exclude("com/cryptomorin/xseries/profiles/*/*")
-        exclude("com/cryptomorin/xseries/reflection/**")
-        exclude("com/cryptomorin/xseries/reflection/*/*")
-        exclude("com/cryptomorin/xseries/messages/*")
-        exclude("com/cryptomorin/xseries/particles/*")
-        exclude("com/cryptomorin/xseries/inventory/*")
-        exclude("com/cryptomorin/xseries/art/*")
-        exclude("com/cryptomorin/xseries/XAttribute*")
-        exclude("com/cryptomorin/xseries/XItemFlag*")
-        exclude("com/cryptomorin/xseries/XPatternType*")
-        exclude("com/cryptomorin/xseries/XBiome*")
-        exclude("com/cryptomorin/xseries/NMSExtras*")
-        exclude("com/cryptomorin/xseries/NoteBlockMusic*")
-        exclude("com/cryptomorin/xseries/SkullCacheListener*")
-        exclude("com/cryptomorin/xseries/XTag*")
-        exclude("com/cryptomorin/xseries/XPotion*")
-        exclude("com/cryptomorin/xseries/XMaterial*")
-        exclude("com/cryptomorin/xseries/XItemStack*")
-        exclude("com/cryptomorin/xseries/XBlock*")
-        exclude("com/cryptomorin/xseries/XEntity*")
-        exclude("com/cryptomorin/xseries/XEnchantment*")
-        exclude("com/cryptomorin/xseries/SkullUtils*")
-        exclude("com/cryptomorin/xseries/ReflectionUtils*")
-        exclude("com/cryptomorin/xseries/XWorldBorder*")
 
         archiveBaseName.set("zMenu")
         archiveAppendix.set(if (project.path == ":") "" else project.name)
@@ -81,14 +57,9 @@ allprojects {
 
     dependencies {
         compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
-        compileOnly("com.mojang:authlib:1.5.26")
         compileOnly("me.clip:placeholderapi:2.11.6")
+        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.0.0")
 
-        implementation("com.github.cryptomorin:XSeries:13.2.0")
-        implementation("com.github.GroupeZ-dev:CurrenciesAPI:1.0.8")
-        implementation("com.github.technicallycoded:FoliaLib:0.4.4")
-        implementation("fr.maxlego08.sarah:sarah:1.18")
-        implementation("net.objecthunter:exp4j:0.4.8")
     }
 }
 
@@ -99,17 +70,12 @@ repositories {
 dependencies {
     api(projects.api)
     // api(projects.hooks)
-    implementation("de.tr7zw:item-nbt-api:2.15.0")
+
 }
 
 tasks {
     shadowJar {
-        relocate("com.tcoded.folialib", "fr.maxlego08.menu.hooks.folialib")
-        relocate("fr.traqueur.currencies", "fr.maxlego08.menu.hooks.currencies")
-        relocate("de.tr7zw.changeme.nbtapi", "fr.maxlego08.menu.hooks.nbtapi")
-        relocate("com.cryptomorin.xseries", "fr.maxlego08.menu.hooks.xseries")
-        relocate("fr.maxlego08.sarah", "fr.maxlego08.menu.hooks.sarah")
-        relocate("net.objecthunter.exp4j", "fr.maxlego08.menu.hooks.exp4j")
+
 
         rootProject.extra.properties["sha"]?.let { sha ->
             archiveClassifier.set("${rootProject.extra.properties["classifier"]}-${sha}")
