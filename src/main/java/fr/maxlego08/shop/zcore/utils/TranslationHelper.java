@@ -25,11 +25,17 @@ public abstract class TranslationHelper {
     public String getItemName(ItemStack itemStack) {
         if (itemStack == null) return "";
 
-        if (itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()) {
+        boolean hasMeta = itemStack.hasItemMeta();
+        if (hasMeta && itemStack.getItemMeta().hasDisplayName()) {
             return convertOldHexString(itemStack.getItemMeta().getDisplayName());
         }
 
-        String name = itemStack.serialize().get("type").toString().replace("_", " ").toLowerCase();
+        String type = itemStack.serialize().get("type");
+        if (type == null) {
+            if (hasMeta) return itemStack.getItemMeta().getItemName();
+            return itemStack.getType().name();
+        }
+        String name = type.toString().replace("_", " ").toLowerCase();
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
