@@ -30,7 +30,7 @@ public abstract class TranslationHelper {
             return convertOldHexString(itemStack.getItemMeta().getDisplayName());
         }
 
-        String type = itemStack.serialize().get("type");
+        Object type = itemStack.serialize().get("type");
         if (type == null) {
             if (hasMeta) return itemStack.getItemMeta().getItemName();
             return itemStack.getType().name();
