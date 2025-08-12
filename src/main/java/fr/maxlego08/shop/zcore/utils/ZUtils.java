@@ -17,7 +17,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockFace;
@@ -128,13 +127,6 @@ public abstract class ZUtils extends MessageUtils {
         }
     }
 
-    /**
-     * Allows to return a material according to its ID Works only for plugins
-     * from 1.8 to 1.12
-     *
-     * @param id
-     * @return the material according to his id
-     */
     protected Material getMaterial(int id) {
         return byId.length > id && id >= 0 ? byId[id] : Material.AIR;
     }
@@ -148,16 +140,8 @@ public abstract class ZUtils extends MessageUtils {
         return itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName();
     }
 
-    protected boolean same(ItemStack itemStack, String name) {
-        return this.hasDisplayName(itemStack) && itemStack.getItemMeta().getDisplayName().equals(name);
-    }
-
     protected boolean contains(ItemStack itemStack, String name) {
         return this.hasDisplayName(itemStack) && itemStack.getItemMeta().getDisplayName().contains(name);
-    }
-
-    protected void removeItemInHand(Player player) {
-        removeItemInHand(player, 64);
     }
 
     protected void removeItemInHand(Player player, int how) {
@@ -167,109 +151,29 @@ public abstract class ZUtils extends MessageUtils {
         player.updateInventory();
     }
 
-    protected boolean same(Location l, Location l2) {
-        return (l.getBlockX() == l2.getBlockX()) && (l.getBlockY() == l2.getBlockY()) && (l.getBlockZ() == l2.getBlockZ()) && l.getWorld().getName().equals(l2.getWorld().getName());
-    }
-
-    /**
-     * Format a double in a String
-     *
-     * @param decimal
-     * @return formatting current duplicate
-     */
     protected String format(double decimal) {
         return format(decimal, "#.##");
     }
 
-    /**
-     * Format a double in a String
-     *
-     * @param decimal
-     * @param format
-     * @return formatting current double according to the given format
-     */
     protected String format(double decimal, String format) {
         DecimalFormat decimalFormat = new DecimalFormat(format);
         return decimalFormat.format(decimal);
     }
 
-    /**
-     * Remove a certain number of items from a player's inventory
-     *
-     * @param player    - Player who will have items removed
-     * @param amount    - Number of items to remove
-     * @param itemStack - ItemStack to be removed
-     */
-    protected void removeItems(Player player, int amount, ItemStack itemStack) {
-        int slot = 0;
-        for (ItemStack is : player.getInventory().getContents()) {
-            if (is != null && is.isSimilar(itemStack) && amount > 0) {
-                int currentAmount = is.getAmount() - amount;
-                amount -= is.getAmount();
-                if (currentAmount <= 0) {
-                    if (slot == 40) {
-                        player.getInventory().setItemInOffHand(null);
-                    } else {
-                        player.getInventory().removeItem(is);
-                    }
-                } else {
-                    is.setAmount(currentAmount);
-                }
-            }
-            slot++;
-        }
-        player.updateInventory();
-    }
-
-    /**
-     * @param delay
-     * @param runnable
-     */
-    protected void schedule(long delay, Runnable runnable) {
-        new Timer().schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                if (runnable != null) runnable.run();
-            }
-        }, delay);
-    }
-
-    /**
-     * @param string
-     * @return
-     */
     protected String name(String string) {
         String name = string.replace("_", " ").toLowerCase();
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    /**
-     * @param string
-     * @return
-     */
     protected String name(Material string) {
         String name = string.name().replace("_", " ").toLowerCase();
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    protected String name(ItemStack itemStack) {
-        return this.getItemName(itemStack);
-    }
-
-    /**
-     * @param items
-     * @return
-     */
     protected int getMaxPage(Collection<?> items) {
         return (items.size() / 45) + 1;
     }
 
-    /**
-     * @param items
-     * @param a
-     * @return
-     */
     protected int getMaxPage(Collection<?> items, int a) {
         return (items.size() / a) + 1;
     }
