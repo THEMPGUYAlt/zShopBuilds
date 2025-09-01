@@ -45,6 +45,6 @@ jobs:
         with:
           tag_name: v${{ env.PLUGIN_VERSION }}
           name: v${{ env.PLUGIN_VERSION }}
-          files: build/Iris-${{ env.PLUGIN_VERSION }}.jar
+          files: build/zShop-${{ env.PLUGIN_VERSION }}.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
