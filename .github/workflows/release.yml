@@ -31,7 +31,7 @@ jobs:
           echo "Detected version: $VERSION"
 
       - name: Build with Gradle
-        run: ./gradlew iris
+        run: ./gradlew build
 
       - name: Create Git tag
         run: |
