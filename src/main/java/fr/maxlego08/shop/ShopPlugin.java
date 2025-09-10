@@ -111,7 +111,9 @@ public class ShopPlugin extends ZPlugin {
         this.patternManager = this.getProvider(PatternManager.class);
         this.buttonManager = this.getProvider(ButtonManager.class);
 
-        this.inventoryManager.registerFastEvent(this, new MenuListener(this.shopManager));
+        var menuListener = new MenuListener(this.shopManager);
+        this.inventoryManager.registerFastEvent(this, menuListener);
+        this.addListener(menuListener);
 
         this.registerCommand("zshoplugin", new CommandShop(this), "zpl");
         this.registerCommand("sell-all", new CommandSellAll(this), "zshop-sell-all");

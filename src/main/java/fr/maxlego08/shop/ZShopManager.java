@@ -280,7 +280,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
     }
 
     @EventHandler
-    public void onQuid(PlayerQuitEvent event) {
+    public void onQuit(PlayerQuitEvent event) {
         this.cachePlayers.remove(event.getPlayer().getUniqueId());
     }
 
@@ -376,8 +376,8 @@ public class ZShopManager extends ZUtils implements ShopManager {
     @Override
     public void onButtonLoad(ButtonLoadEvent event) {
         Button button = event.getButton();
-        if (button instanceof ItemButton) {
-            this.itemButtons.add((ItemButton) button);
+        if (button instanceof ItemButton itemButton) {
+            this.itemButtons.add(itemButton);
         }
     }
 

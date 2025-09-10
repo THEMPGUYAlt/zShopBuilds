@@ -57,9 +57,9 @@ import java.util.stream.Stream;
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
 
-    private static final List<String> teleportPlayers = new ArrayList<String>();
+    private transient static final List<String> teleportPlayers = new ArrayList<String>();
     // For plugin support from 1.8 to 1.12
-    private static Material[] byId;
+    private transient static Material[] byId;
 
     static {
         if (!NmsVersion.nmsVersion.isNewMaterial()) {
