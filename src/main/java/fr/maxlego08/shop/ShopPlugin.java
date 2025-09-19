@@ -9,6 +9,7 @@ import fr.maxlego08.shop.api.ShopManager;
 import fr.maxlego08.shop.api.economy.EconomyManager;
 import fr.maxlego08.shop.api.history.HistoryManager;
 import fr.maxlego08.shop.api.limit.LimiterManager;
+import fr.maxlego08.shop.api.utils.TranslationManager;
 import fr.maxlego08.shop.buttons.ZConfirmBuyButton;
 import fr.maxlego08.shop.buttons.ZConfirmSellButton;
 import fr.maxlego08.shop.buttons.ZShowConfirmItemButton;
@@ -34,6 +35,7 @@ import fr.maxlego08.shop.save.Config;
 import fr.maxlego08.shop.save.MessageLoader;
 import fr.maxlego08.shop.zcore.ZPlugin;
 import fr.maxlego08.shop.zcore.logger.Logger;
+import fr.maxlego08.shop.zcore.utils.ZTranslationManager;
 import fr.maxlego08.shop.zcore.utils.plugins.Metrics;
 import fr.maxlego08.shop.zcore.utils.plugins.Plugins;
 import org.bukkit.Bukkit;
@@ -53,7 +55,8 @@ public class ShopPlugin extends ZPlugin {
     private final EconomyManager economyManager = new ZEconomyManager(this);
     private final ShopManager shopManager = new ZShopManager(this);
     private final ZLimitManager limitManager = new ZLimitManager(this);
-    public int minimumVersion = 1017;
+    private final TranslationManager translationManager = new ZTranslationManager(this);
+    public int minimumVersion = 1100;
     private HistoryManager historyManager;
     private InventoryManager inventoryManager;
     private CommandManager commandManager;
@@ -108,7 +111,9 @@ public class ShopPlugin extends ZPlugin {
         this.patternManager = this.getProvider(PatternManager.class);
         this.buttonManager = this.getProvider(ButtonManager.class);
 
-        this.inventoryManager.registerFastEvent(this, new MenuListener(this.shopManager));
+        var menuListener = new MenuListener(this.shopManager);
+        this.inventoryManager.registerFastEvent(this, menuListener);
+        this.addListener(menuListener);
 
         this.registerCommand("zshoplugin", new CommandShop(this), "zpl");
         this.registerCommand("sell-all", new CommandSellAll(this), "zshop-sell-all");
@@ -139,6 +144,8 @@ public class ShopPlugin extends ZPlugin {
 
         this.limitManager.deletes();
         this.limitManager.verifyPlayersLimit();
+
+        this.translationManager.loadTranslations();
 
         this.isLoad = true;
 
@@ -182,7 +189,7 @@ public class ShopPlugin extends ZPlugin {
         this.limitManager.deletes();
         this.limitManager.verifyPlayersLimit();
 
-        // Ajouter la cloture des inventaires
+        this.translationManager.loadTranslations();
     }
 
     public EconomyManager getEconomyManager() {
@@ -230,5 +237,9 @@ public class ShopPlugin extends ZPlugin {
 
     public ButtonManager getButtonManager() {
         return buttonManager;
+    }
+
+    public TranslationManager getTranslationManager() {
+        return translationManager;
     }
 }

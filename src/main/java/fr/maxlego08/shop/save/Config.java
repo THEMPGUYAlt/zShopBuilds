@@ -32,6 +32,7 @@ public class Config {
     public static String depositAllLine = "";
     public static List<String> defaultLore = Arrays.asList("&f» &7Buying price&8: &e%buyPrice%", "&f» &7Selling price&8: &e%sellPrice%", "", "&f➥ &r&7Left click to &f&nʙᴜʏ", "&f➥ &r&7Click wheel (or drop key) to &f&nsᴇʟʟ ᴇᴠᴇʀʏᴛʜɪɴɢ", "&f➥ &r&7Right click to &f&nsᴇʟʟ");
     public static List<PriceModifier> priceModifiers = new ArrayList<>();
+    public static String language = "en-us";
 
     private Config() {
     }
@@ -68,5 +69,7 @@ public class Config {
 
         depositAllReason = configuration.getString("deposit-all-reason");
         depositAllLine = configuration.getString("deposit-all-line");
+
+        language = configuration.getString("language", "en-us");
     }
 }

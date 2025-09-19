@@ -280,7 +280,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
     }
 
     @EventHandler
-    public void onQuid(PlayerQuitEvent event) {
+    public void onQuit(PlayerQuitEvent event) {
         this.cachePlayers.remove(event.getPlayer().getUniqueId());
     }
 
@@ -376,8 +376,8 @@ public class ZShopManager extends ZUtils implements ShopManager {
     @Override
     public void onButtonLoad(ButtonLoadEvent event) {
         Button button = event.getButton();
-        if (button instanceof ItemButton) {
-            this.itemButtons.add((ItemButton) button);
+        if (button instanceof ItemButton itemButton) {
+            this.itemButtons.add(itemButton);
         }
     }
 
@@ -477,13 +477,15 @@ public class ZShopManager extends ZUtils implements ShopManager {
             } else fixedShopActions.add(action);
         });
 
-        String results = toList(fixedShopActions.stream().map(action -> getMessage(Message.SELL_ALL_INFO, "%amount%", action.getItemStack().getAmount(), "%item%", getItemName(action.getItemStack()), "%translation%", getTranslationName(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), Message.SELL_ALL_COLOR_SEPARATOR.msg(), Message.SELL_ALL_COLOR_INFO.msg());
+        var translationManager = this.plugin.getTranslationManager();
+
+        String results = toList(fixedShopActions.stream().map(action -> getMessage(Message.SELL_ALL_INFO, "%amount%", action.getItemStack().getAmount(), "%item%", translationManager.translateItemStack(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), Message.SELL_ALL_COLOR_SEPARATOR.msg(), Message.SELL_ALL_COLOR_INFO.msg());
         if (results == null) {
             Logger.info("Error with results on sellall !");
             player.sendMessage("§cError with results on sellall !");
         }
 
-        String resultsReason = toList(fixedShopActions.stream().map(action -> getMessage(Config.depositAllLine, "%amount%", action.getItemStack().getAmount(), "%item%", getItemName(action.getItemStack()), "%translation%", getTranslationName(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), "", "");
+        String resultsReason = toList(fixedShopActions.stream().map(action -> getMessage(Config.depositAllLine, "%amount%", action.getItemStack().getAmount(), "%item%", translationManager.translateItemStack(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), "", "");
         prices.forEach((economy, price) -> economy.depositMoney(player, price, Config.depositAllReason.replace("%items%", resultsReason == null ? "" : resultsReason)));
 
         message(this.plugin, player, Message.SELL_ALL_MESSAGE, "%items%", results == null ? "ERROR" : results);

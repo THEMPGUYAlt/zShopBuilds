@@ -47,7 +47,7 @@ public class ItemConfirmButtonLoader extends ButtonLoader {
             throw new EconomyNotFoundException("Economy " + economyName + " was not found for button " + path);
         }
         ShopEconomy shopEconomy = optional.get();
-        String inventoryConfirm = configuration.getString(path + "inventoryConfirm", null);
+        String inventoryConfirm = configuration.getString(path + "inventoryConfirm", configuration.getString(path + "inventory-confirm", null));
 
         List<Action> confirmActions = new ArrayList<>();
         List<?> list = configuration.getList(path + "confirm-actions");

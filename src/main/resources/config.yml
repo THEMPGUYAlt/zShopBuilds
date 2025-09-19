@@ -178,3 +178,6 @@ withdraw-reason: "Sale of x%amount% %item%"
 deposit-reason: "Purchase of x%amount% %item%"
 deposit-all-reason: "Sale of %items%"
 deposit-all-line: "x%amount% %item% for %price%"
+
+# Language for the plugin (see the 'lang' folder for supported languages).
+language: en-us
